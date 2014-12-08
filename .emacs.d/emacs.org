@@ -14,7 +14,11 @@
 * Look and Feel
   #+name: look-and-feel
   #+BEGIN_SRC emacs-lisp
-    (load-theme 'solarized-dark 't)
+    (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+    (load-theme 'zenburn 't)
+    (set-default-font "-*-Anonymous Pro for Powerline-normal-normal-normal-*-18-*-*-*-m-0-iso10646-")
+    (tool-bar-mode -1)
+    (set-cursor-color 'red)
   #+END_SRC
 * Autocomplete
   #+name: autocomplete
@@ -39,11 +43,6 @@
    #+name: packages
    #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-=") 'er/expand-region)
-   #+END_SRC
-** Flycheck
-   #+name: packages
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'after-init-hook #'global-flycheck-mode)
    #+END_SRC
 ** Git-Gutter
    #+name: packages
@@ -155,12 +154,7 @@
 ** Powerline
    #+name: packages
    #+BEGIN_SRC emacs-lisp
-     (powerline-default-theme)
-   #+END_SRC
-** Projectile
-   #+name: packages
-   #+BEGIN_SRC emacs-lisp
-     (projectile-global-mode)
+   ;;  (powerline-default-theme)
    #+END_SRC
 ** Web Mode
    #+name: packages
@@ -170,95 +164,32 @@
                                 (setq web-mode-css-indent-offset 4)
                                 (setq web-mode-code-indent-offset 4)))
    #+END_SRC
-** BBDB
-   #+name: packages
-   #+BEGIN_SRC emacs-lisp
-     (require 'bbdb)
-     (load "bbdb-com" t)
-     (bbdb-initialize 'gnus 'message)
-     (bbdb-insinuate-message)
-     (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
-   #+END_SRC
-** Gnus
-   #+name: packages
-   #+BEGIN_SRC emacs-lisp
-     (defun my/configure-gnus ()
-       <<gnus>>
-       )
-
-     (setq gnus-before-startup-hook 'my/configure-gnus)
-   #+END_SRC
-*** Avoid rich-text messages
-    #+name: gnus
-    #+BEGIN_SRC emacs-lisp
-      (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
-    #+END_SRC
-*** Summary view formatting
-    Taken from http://groups.google.com/group/gnu.emacs.gnus/browse_thread/thread/a673a74356e7141f
-
-    #+name: gnus
-    #+BEGIN_SRC emacs-lisp
-      (when window-system
-        (setq gnus-sum-thread-tree-indent "  ")
-        (setq gnus-sum-thread-tree-root "") ;; "● ")
-        (setq gnus-sum-thread-tree-false-root "") ;; "◯ ")
-        (setq gnus-sum-thread-tree-single-indent "") ;; "◎ ")
-        (setq gnus-sum-thread-tree-vertical        "│")
-        (setq gnus-sum-thread-tree-leaf-with-other "├─► ")
-        (setq gnus-sum-thread-tree-single-leaf     "╰─► "))
-      (setq gnus-summary-line-format
-            (concat
-             "%0{%U%R%z%}"
-             "%3{│%}" "%1{%d%}" "%3{│%}" ;; date
-             "  "
-             "%4{%-20,20f%}"               ;; name
-             "  "
-             "%3{│%}"
-             " "
-             "%1{%B%}"
-             "%s\n"))
-      (setq gnus-summary-display-arrow t)
-    #+END_SRC
-*** Inline images
-    #+name: gnus
-    #+BEGIN_SRC emacs-lisp
-      (add-to-list 'mm-attachment-override-types "image/.*")
-      (setq mm-inline-large-images t)
-    #+END_SRC
 * Programming
 ** Lisps
    #+name: programming
    #+BEGIN_SRC emacs-lisp
      ;; SLIME
-     (if (file-exists-p "~/quicklisp/slime-helper.el")
-         (load (expand-file-name "~/quicklisp/slime-helper.el")))
-
-     (setq inferior-lisp-program "clisp")
-
-     (mapcar (lambda (mode-hook)
-               (eval-after-load "paredit" `(add-hook ',mode-hook #'enable-paredit-mode))
-               (eval-after-load "rainbow-delimiters" `(add-hook ',mode-hook #'rainbow-delimiters-mode))
-               (eval-after-load "rainbow-identifiers" `(add-hook ',mode-hook #'rainbow-identifiers-mode))
-               (add-hook mode-hook (lambda ()
-                                (show-paren-mode)
-                                (electric-indent-mode 1)
-                                (paredit-mode 1)
-                                (rainbow-delimiters-mode 1)
-                                (rainbow-identifiers-mode 1)))
-               )
-             '(lisp-mode-hook
-               emacs-lisp-mode-hook
-               scheme-mode-hook
-               lfe-mode-hook
-               clojure-mode-hook))
-   #+END_SRC
-** Erlang
-   #+name: programming
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'erlang-mode-hook
-               (lambda ()
-                 (setq inferior-erlang-machine-options '("-sname" "emacs"
-                                                         "-hidden"))))
+;;     (if (file-exists-p "~/quicklisp/slime-helper.el")
+;;         (load (expand-file-name "~/quicklisp/slime-helper.el")))
+;;
+;;     (setq inferior-lisp-program "clisp")
+;;
+;;     (mapcar (lambda (mode-hook)
+;;               (eval-after-load "paredit" `(add-hook ',mode-hook #'enable-paredit-mode))
+;;               (eval-after-load "rainbow-delimiters" `(add-hook ',mode-hook #'rainbow-delimiters-mode))
+;;               (eval-after-load "rainbow-identifiers" `(add-hook ',mode-hook #'rainbow-identifiers-mode))
+;;               (add-hook mode-hook (lambda ()
+;;                                (show-paren-mode)
+;;                                (electric-indent-mode 1)
+;;                                (paredit-mode 1)
+;;                                (rainbow-delimiters-mode 1)
+;;                                (rainbow-identifiers-mode 1)))
+;;               )
+;;             '(lisp-mode-hook
+;;               emacs-lisp-mode-hook
+;;               scheme-mode-hook
+;;               lfe-mode-hook
+;;               clojure-mode-hook))
    #+END_SRC
 ** PHP
    #+name: programming
